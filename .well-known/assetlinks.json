@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.hoona.app",
+      "sha256_cert_fingerprints": ["BA:D6:03:20:B2:57:B3:29:8B:8A:B0:3B:91:7E:9D:E4:D4:E5:F0:1F:DD:F3:B7:FD:F2:8F:DE:14:95:70:03:B2"]
+    }
+  }
+]
