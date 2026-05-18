@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Hoona Redirecting...</title>
+    <script type="text/javascript">
+        window.onload = function() {
+            // Extract the promo ID from the broken URL path
+            var currentUrl = window.location.href;
+            var segments = window.location.pathname.split('/');
+            var promoId = segments[segments.length - 1];
+
+            // 1. Force try to open the native app directly using your custom scheme
+            var customSchemeUri = "yallaHubHost://yalla-hub/promo/" + promoId;
+            window.location.href = customSchemeUri;
+
+            // 2. Set a fallback timer: If the app isn't installed, push them to the Play Store
+            setTimeout(function() {
+                window.location.href = "https://play.google.com/store/apps/details?id=com.hoona.app";
+            }, 1500);
+        };
+    </script>
+</head>
+<body>
+    <h2 style="text-align:center; font-family: sans-serif; margin-top: 50px;">
+        Opening in Hoona...
+    </h2>
+</body>
+</html>
