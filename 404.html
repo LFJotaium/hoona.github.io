@@ -5,33 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hoona</title>
     <script type="text/javascript">
+        // Global storage for the deep link path
+        var customAppScheme = "yallahub://";
+
         window.onload = function() {
-            // 1. Parse the promo ID out of the current URL path
+            // Parse the promo ID out of the current URL path dynamically
             var pathSegments = window.location.pathname.split('/');
             var promoId = pathSegments[pathSegments.length - 1];
             
-            // Your internal app custom scheme string structure
-            var customAppScheme = "yallahub://promo/" + promoId;
-
-            // 2. Detect if the user is visiting on an Android device
-            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-            var isAndroid = /android/i.test(userAgent);
-
-            if (isAndroid) {
-                // Try to force launch the app natively via the custom intent scheme link
-                window.location.href = customAppScheme;
-
-                // 3. Fallback: If the app isn't installed, the page stays open.
-                // We show the release notice after a brief delay so it doesn't flash jarringly.
-                setTimeout(function() {
-                    document.getElementById("loading-state").style.display = "none";
-                    document.getElementById("release-notice").style.display = "block";
-                }, 1500);
+            // Build the matching custom scheme path format
+            if (promoId && promoId.trim() !== "" && promoId !== "promo") {
+                customAppScheme = "yallahub://promo/" + promoId;
             } else {
-                // Immediately show holding state for desktop or non-Android browsers
-                document.getElementById("loading-state").style.display = "none";
-                document.getElementById("release-notice").style.display = "block";
+                customAppScheme = "yallahub://home";
             }
+
+            // Set the href of the action button dynamically
+            document.getElementById("app-launch-btn").href = customAppScheme;
         };
     </script>
     <style>
@@ -49,32 +39,25 @@
             text-align: center;
             padding: 24px;
             max-width: 400px;
+            width: 100%;
+            box-sizing: border-box;
         }
         .logo {
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 900;
             letter-spacing: -1px;
             margin-bottom: 8px;
-            color: #fff;
-        }
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            border-left-color: #3b82f6; /* Blue accent */
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px auto;
+            color: #ffffff;
         }
         .badge {
             display: inline-block;
-            background-color: rgba(59, 130, 246, 0.1);
+            background-color: rgba(59, 130, 246, 0.15);
             color: #3b82f6;
             padding: 6px 16px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 24px;
         }
         h2 {
             font-size: 24px;
@@ -86,24 +69,37 @@
             color: #a3a3a3;
             font-size: 16px;
             line-height: 1.5;
-            margin: 0;
+            margin: 0 0 32px 0;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .btn {
+            display: block;
+            background-color: #3b82f6;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+        .btn:active {
+            background-color: #2563eb;
+            transform: scale(0.98);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <div id="loading-state">
-            <div class="spinner"></div>
-            <p>Opening link in Hoona...</p>
-        </div>
-
-        <div id="release-notice" style="display: none;">
-            <div class="logo">Hoona</div>
-            <div class="badge">Coming Soon</div>
-            <h2>Official Release Pending</h2>
-            <p>Please wait for the official release to access promotions and shared links on the web.</p>
-        </div>
+        <div class="logo">Hoona</div>
+        <div class="badge">Coming Soon</div>
+        
+        <h2>Official Release Pending</h2>
+        <p>Please wait for the official release to access promotions and shared links directly on the web.</p>
+        
+        <a id="app-launch-btn" href="yallahub://" class="btn">
+            Open in Hoona App
+        </a>
     </div>
 </body>
 </html>
